@@ -1,9 +1,18 @@
 # import database module
 
+import database
+import csv
+import os
+
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 # define a funcion called initializing
 
+create_table = database.Table
+create_db = database.DB
 def initializing():
-    pass
+
 
 # here are things to do in this function:
 
@@ -14,33 +23,82 @@ def initializing():
     # see the guide how many tables are needed
 
     # add all these tables to the database
+    with open('login.csv', mode='r') as f:
+        login_data = list(csv.DictReader(f))
 
+    with open('persons.csv',mode = 'r') as file:
+        persons_data = list(csv.DictReader(file))
+
+    # create a 'persons' table
+    db = database.DB()
+    persons_table = database.Table('persons', [])
+    # print(persons_table)
+    for row in persons_data:
+        persons_table.insert(row)
+    db.insert(persons_table)
+
+    login_table = database.Table('login', [])
+    # print(login_table)
+    for login in login_data:
+        person_id = login['ID']
+        username = login['username']
+        # password = ''.join(random.choices('0123456789', k=4))
+        password = login['password']
+        role = 'student' if login['role'] == 'student' else 'faculty'
+        login_table.insert({'person_id': person_id, 'username': username, 'password': password, 'role': role})
+    db.insert(login_table)
+    # print(login_table)
+    return db
 
 # define a funcion called login
 
-def login():
-    pass
+def login(db):
+
 
 # here are things to do in this function:
    # add code that performs a login task
         # ask a user for a username and password
         # returns [ID, role] if valid, otherwise returning None
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    login_table = db.search('login')
+    matching_users = login_table.filter(lambda user: user['username'] == username and user['password'] == password)
+    # print(matching_users)
+    if matching_users:
+        # print(matching_users.table[0])
+        user = matching_users.table[0]
+        return [user['person_id'], user['role']]
+    else:
+        return None
+        # print(matching_users)
 
 # define a function called exit
-def exit():
-    pass
+def exit(db):
 
-# here are things to do in this function:
+    # here are things to do in this function:
    # write out all the tables that have been modified to the corresponding csv files
    # By now, you know how to read in a csv file and transform it into a list of dictionaries. For this project, you also need to know how to do the reverse, i.e., writing out to a csv file given a list of dictionaries. See the link below for a tutorial on how to do this:
    
    # https://www.pythonforbeginners.com/basics/list-of-dictionaries-to-csv-in-python
 
+    for table in db.database:
+        table_name = table.table_name
+        with open(os.path.join(__location__, f'{table_name}.csv'), 'w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=table.table[0].keys())
+            writer.writeheader()
+            writer.writerows(table.table)
+
+
+
+
+
+
+
 
 # make calls to the initializing and login functions defined above
 
-initializing()
-val = login()
+db = initializing()
+val = login(db)
 
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 
@@ -58,4 +116,4 @@ val = login()
     # see and do advisor related activities
 
 # once everyhthing is done, make a call to the exit function
-exit()
+exit(db)
