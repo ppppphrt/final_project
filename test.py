@@ -1,3 +1,11 @@
+import database
+import csv
+import os
+
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+
 class User:
     def __init__(self, id, firstname, lastname, type):
         self.id = id
@@ -9,12 +17,13 @@ class User:
         return f'{self.id} : {self.firstname} {self.lastname} , {self.type}'
 
 
-from database import DB, Table  # Assuming you have these classes in your database module
+from database import DB, Table
 
 
 class Admin:
     def __init__(self, database):
         self.database = database
+
 
     def manage_database(self):
         print("Database Management Menu:")
@@ -41,6 +50,19 @@ class Admin:
             self.database.insert(new_table)
             print(f"Table '{table_name}' created successfully.")
 
+
+    def create_user_account(self, user_info):
+        table_name = 'users'
+        users_table = self.database.search(table_name)
+
+        if users_table is None:
+            users_table = Table(table_name,users_table)
+            self.database.insert(users_table)
+            print(f"Table '{table_name}' created successfully.")
+
+        users_table.insert(user_info)
+        self.database.insert(users_table)
+
     def drop_table(self, table_name):
         existing_table = self.database.search(table_name)
 
@@ -50,16 +72,10 @@ class Admin:
         else:
             print(f"Table '{table_name}' does not exist.")
 
-    def create_user_account(self, user_info):
-
-        users_table = self.database.search('users')
-        users_table.insert(user_info)
-        self.database.insert(users_table)
-
     def remove_user_account(self, user_id):
 
         users_table = self.database.search('users')
-        user_to_remove = users_table.find({'id': user_id})
+        user_to_remove = users_table.filter(lambda user: user['id'] == user_id)
         if user_to_remove:
             users_table.remove(user_to_remove[0])
             self.database.insert(users_table)
@@ -179,6 +195,56 @@ class Project:
         print(f"Project ID: {self.project_id}, Title: {self.title}, Description: {self.description}")
 
 
-admin = Admin()
-user = User(2, "Jane", "Smith", "user")
+# admin = Admin()
+# user = User(2, "Jane", "Smith", "user")
 # print(user)
+
+# Instantiate a database and an admin
+database_instance = DB()
+admin = Admin(database_instance)
+
+# 1. Create a table
+admin.create_table("users")
+
+# 2. Create a user account
+user_info = {'id': 1, 'firstname': 'John', 'lastname': 'Doe', 'type': 'student'}
+admin.create_user_account(user_info)
+
+# 3. View all projects (assuming projects table exists)
+admin.view_all_projects()
+
+# Create a lead student
+lead_student = LeadStudent(id=101, firstname="Alice", lastname="Wonderland", type="lead_student")
+
+# Create a project using the lead student
+project1 = lead_student.create_project(project_id=1, title="Project A", description="Description A")
+
+# Create a student
+student1 = Student(id=102, firstname="Bob", lastname="Builder", type="student")
+
+# Invite the student to join the project
+lead_student.invite_member(student1, project1)
+
+# Submit the project for review
+lead_student.submit_project(project1)
+
+# Create a faculty member
+faculty_member = Faculty(id=201, firstname="Prof", lastname="Smith", type="faculty")
+
+# Assign the project to the faculty member for evaluation
+faculty_member.assign_project(project1)
+
+# Evaluate the project (assuming evaluation result is True)
+faculty_member.evaluate_project(project1)
+
+# Create an advising faculty member
+advising_faculty = AdvisingFaculty(id=301, firstname="Dr.", lastname="Advisor", type="advising_faculty")
+
+# Set the advisor for the project
+project1.set_advisor(advising_faculty)
+
+# Advise the project
+advising_faculty.advise_project(project1)
+
+# Display project details
+project1.display_project_details()
