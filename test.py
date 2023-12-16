@@ -11,6 +11,7 @@ class User:
 
 from database import DB, Table  # Assuming you have these classes in your database module
 
+
 class Admin:
     def __init__(self, database):
         self.database = database
@@ -94,15 +95,18 @@ class LeadStudent:
         return project
 
     def invite_member(self, student, project):
-        pass
+        if student not in project.members:
+            project.add_member(student)
+            print(f"{student.firstname} {student.lastname} has been invited to join the project '{project.title}'.")
 
     def remove_member(self, student, project):
         project.remove_member(student)
-        pass
+        print(f"{student.firstname} {student.lastname} has been removed from the project '{project.title}'.")
 
     def submit_project(self, project):
         project.submitted = True
-        pass
+        print(
+            f"Project '{project.title}' has been submitted for review. Advisor: {project.advisor.firstname} {project.advisor.lastname}.")
 
 
 class MemberStudent:
@@ -119,7 +123,6 @@ class Faculty:
         self.projects_to_evaluate = projects_to_evaluate
 
     def evaluate_project(self, project):
-
         pass
 
     def assign_project(self, project):
