@@ -16,7 +16,38 @@ class Admin:
         self.database = database
 
     def manage_database(self):
-        pass
+        print("Database Management Menu:")
+        print("1. Create Table")
+        print("2. Drop Table")
+        choice = input("Enter your choice (1/2): ")
+
+        if choice == '1':
+            table_name = input("Enter table name: ")
+            self.create_table(table_name)
+        elif choice == '2':
+            table_name = input("Enter table name to drop: ")
+            self.drop_table(table_name)
+        else:
+            print("Invalid choice.")
+
+    def create_table(self, table_name):
+        predefined_tables = ['users', 'projects', 'tasks']
+
+        if table_name in predefined_tables:
+            print(f"Table '{table_name}' already exists.")
+        else:
+            new_table = Table(table_name)
+            self.database.insert(new_table)
+            print(f"Table '{table_name}' created successfully.")
+
+    def drop_table(self, table_name):
+        existing_table = self.database.search(table_name)
+
+        if existing_table:
+            self.database.database.remove(existing_table)
+            print(f"Table '{table_name}' dropped successfully.")
+        else:
+            print(f"Table '{table_name}' does not exist.")
 
     def create_user_account(self, user_info):
 

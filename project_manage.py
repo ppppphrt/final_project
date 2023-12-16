@@ -97,8 +97,8 @@ def exit(db):
 
 # make calls to the initializing and login functions defined above
 
-db = initializing()
-val = login(db)
+# db = initializing()
+# val = login(db)
 
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 
@@ -115,5 +115,22 @@ val = login(db)
 # elif val[1] = 'advisor':
     # see and do advisor related activities
 
+def run(self):
+    val = self.login()
+
+    if val:
+        if val[1] == 'admin':
+            # perform admin-related activities
+            pass
+        elif val[1] == 'student':
+            # perform student-related activities
+            pass
+        elif val[1] == 'faculty':
+            # perform faculty-related activities
+            pass
+        # Add more roles as needed
+
+    self.exit()
+
 # once everyhthing is done, make a call to the exit function
-exit(db)
+# exit(db)
