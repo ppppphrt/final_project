@@ -123,7 +123,14 @@ class Faculty:
         self.projects_to_evaluate = projects_to_evaluate
 
     def evaluate_project(self, project):
-        pass
+        evaluation_result = True
+
+        if evaluation_result:
+            project.approved = True
+            print(f"Project '{project.title}' has been approved by {self.user.firstname} {self.user.lastname}.")
+        else:
+            project.approved = False
+            print(f"Project '{project.title}' has been denied approval by {self.user.firstname} {self.user.lastname}.")
 
     def assign_project(self, project):
         self.projects_to_evaluate.append(project)
