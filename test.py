@@ -147,7 +147,8 @@ class AdvisingFaculty:
         project.approved = False
 
     def advise_project(self, project):
-        pass
+        feedback = input("Project Advice: ")
+        print(f"Advice for '{project.title}': {feedback}")
 
 
 class Project:
@@ -180,4 +181,4 @@ class Project:
 
 admin = Admin()
 user = User(2, "Jane", "Smith", "user")
-print(user)
+# print(user)
