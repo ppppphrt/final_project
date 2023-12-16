@@ -9,22 +9,34 @@ class User:
         return f'{self.id} : {self.firstname} {self.lastname} , {self.type}'
 
 
-class Admin:
-    def manage_database(self):
+from database import DB, Table  # Assuming you have these classes in your database module
 
+class Admin:
+    def __init__(self, database):
+        self.database = database
+
+    def manage_database(self):
         pass
 
     def create_user_account(self, user_info):
 
-        pass
+        users_table = self.database.search('users')
+        users_table.insert(user_info)
+        self.database.insert(users_table)
 
     def remove_user_account(self, user_id):
 
-        pass
+        users_table = self.database.search('users')
+        user_to_remove = users_table.find({'id': user_id})
+        if user_to_remove:
+            users_table.remove(user_to_remove[0])
+            self.database.insert(users_table)
 
     def view_all_projects(self):
 
-        pass
+        projects_table = self.database.search('projects')
+        for project in projects_table.table:
+            print(f"Project ID: {project['id']}, Title: {project['title']}, Description: {project['description']}")
 
 
 class Student:
