@@ -21,7 +21,7 @@ class DB:
     def insert(self, table):
         self.database.append(table)
 
-    def search(self, table_name):
+    def search(self, table_name: object) -> object:
         for table in self.database:
             if table.table_name == table_name:
                 return table
@@ -33,9 +33,9 @@ import copy
 
 
 class Table:
-    def __init__(self, table_name, table):
+    def __init__(self, table_name):
         self.table_name = table_name
-        self.table = table
+        self.table = []
 
     def __is_float(self, element):
         if element is None:
@@ -86,8 +86,9 @@ class Table:
         return temps
 
     def insert(self, entry):
-        if isinstance(entry, dict):
-            self.table.append(entry)
+        # if isinstance(entry, dict):
+        #     self.table.append(entry)
+        self.table.append(entry)
 
     def __str__(self):
         return self.table_name + ':' + str(self.table)

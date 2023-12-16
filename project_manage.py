@@ -62,9 +62,8 @@ def login(db):
     password = input("Enter password: ")
     login_table = db.search('login')
     matching_users = login_table.filter(lambda user: user['username'] == username and user['password'] == password)
-    # print(matching_users)
+
     if matching_users:
-        # print(matching_users.table[0])
         user = matching_users.table[0]
         return [user['person_id'], user['role']]
     else:
@@ -133,7 +132,7 @@ def run():
         # elif val[1] = 'advisor':
         #
 
-    # Exit program
+
     exit(db)
 
 

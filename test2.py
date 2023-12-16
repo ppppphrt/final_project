@@ -111,7 +111,6 @@ def student_menu(admin):
     student = create_student(admin)
     join_project = student.join_project
     leave_project = student.leave_project
-
     while True:
         print("\nRegular Student Menu:")
         print("1. Join Project")
