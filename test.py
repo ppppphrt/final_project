@@ -168,7 +168,7 @@ class Project:
         self.description = new_details['description']
 
     def display_project_details(self):
-        pass
+        print(f"Project ID: {self.project_id}, Title: {self.title}, Description: {self.description}")
 
 
 admin = Admin()
