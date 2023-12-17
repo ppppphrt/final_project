@@ -31,7 +31,7 @@ def create_faculty_member():
 def admin_menu(database):
     admin = Admin(database)
     while True:
-        print("\nAdmin Menu:")
+        print("\nAdmin Menu")
         print("1. Manage Database")
         print("2. Exit to Main Menu")
 
@@ -51,7 +51,7 @@ def lead_student_menu(database, lead_id):
     project = database.search('project')
 
     while True:
-        print("\nLead Student Menu:")
+        print("\nLead Student Menu")
         print("1. Create Project")
         print("2. Invite Member to Project")
         print("3. Remove Member from Project")
@@ -93,7 +93,7 @@ def member_student_menu(database):
                                    database.search(''))
 
     while True:
-        print("\nMember Student Menu:")
+        print("\nMember Student Menu")
         print("1. Update Project Details")
         print("2. View Projects")
         print("3. Exit to Main Menu")
@@ -134,7 +134,7 @@ def advising_faculty_menu(database: DB):
     advising_faculty = AdvisingFaculty(advising_faculty_id, advising_faculty_firstname, advising_faculty_lastname, advising_faculty_type, project_table)
 
     while True:
-        print("\nAdvising Faculty Menu:")
+        print("\nAdvising Faculty Menu")
         print("1. Approve Project")
         print("2. Deny Project")
         print("3. Advise Project")
@@ -180,7 +180,7 @@ def student_menu(database):
     join_project = student.join_project
     leave_project = student.leave_project
     while True:
-        print("\nRegular Student Menu:")
+        print("\nRegular Student Menu")
         print("1. Join Project")
         print("2. Leave Project")
         print("3. Exit to Main Menu")
@@ -191,8 +191,10 @@ def student_menu(database):
 
         if student_choice == '1':
             join_project(project)
+            print("Project joined successfully.")
         elif student_choice == '2':
             leave_project(project)
+            print("Project left successfully.")
         elif student_choice == '3':
             print("Returning to main menu.")
             break
