@@ -2,7 +2,7 @@
 from database import DB, Table
 import csv
 import os
-from test2 import *
+from run_manage import *
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))

@@ -1,4 +1,4 @@
-from test import LeadStudent, Student, Faculty, DB, Admin, MemberStudent, AdvisingFaculty
+from mange import LeadStudent, Student, Faculty, DB, Admin, MemberStudent, AdvisingFaculty
 
 
 def create_lead_student():
