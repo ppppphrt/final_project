@@ -229,8 +229,9 @@ class MemberStudent(Student):
 
 
 
-class Faculty:
+class Faculty(Student):
     def __init__(self, id, firstname, lastname, type, projects_to_evaluate=[]):
+        super().__init__(id, firstname, lastname, type)
         self.user = User(id, firstname, lastname, type)
         self.projects_to_evaluate = projects_to_evaluate
 
@@ -247,18 +248,39 @@ class Faculty:
     def assign_project(self, project):
         self.projects_to_evaluate.append(project)
 
+    def get_project_by_id(self, project_id):
+        for project in self.projects:
+            if project.project_id == project_id:
+                return project
+        return None
 
 class AdvisingFaculty(LeadStudent):
     def __init__(self, id, firstname, lastname, type, projects_to_evaluate=[]):
         super().__init__(id, firstname, lastname, type)
         self.faculty = Faculty(id, firstname, lastname, type, projects_to_evaluate)
 
-    def approve_project(self, project):
-        project.approved = True
+    def approve_project(self, project, project_id):
+        if project:
+            project.approved = True
+        else:
 
-    def deny_project(self, project):
-        project.approved = False
+            print(f"Project with ID '{project_id}' not found for Advising Faculty '{self.id}'.")
+
+    def deny_project(self, project, project_id):
+        if project:
+            project.approved = False
+        else:
+
+            print(f"Project with ID '{project_id}' not found for Advising Faculty '{self.id}'.")
+
 
     def advise_project(self, project):
         feedback = input("Project Advice: ")
-        print(f"Advice for '{project.title}': {feedback}")
+        print(f"Advice for project: {feedback}")
+
+    def get_project_by_id(self, project_id):
+        for project in self.projects:
+            if project.id == project_id:
+                return project
+        raise ValueError(f"Project with ID '{project_id}' not found for Advising Faculty '{self.id}'")
+

@@ -145,13 +145,13 @@ def advising_faculty_menu(database: DB):
         if faculty_choice == '1':
             project_id = input("Enter the project ID to approve: ")
             project = advising_faculty.faculty.get_project_by_id(project_id)
-            advising_faculty.approve_project(project)
-            print(f"Project '{project.title}' approved successfully.")
+            advising_faculty.approve_project(project,project_id)
+            print(f"Project approved successfully.")
         elif faculty_choice == '2':
             project_id = input("Enter the project ID to deny: ")
             project = advising_faculty.faculty.get_project_by_id(project_id)
-            advising_faculty.deny_project(project)
-            print(f"Project '{project.title}' denied.")
+            advising_faculty.deny_project(project,project_id)
+            print(f"Project denied.")
         elif faculty_choice == '3':
             project_id = input("Enter the project ID to advise: ")
             project = advising_faculty.faculty.get_project_by_id(project_id)
