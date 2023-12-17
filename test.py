@@ -45,7 +45,7 @@ class Admin:
         if table_name in predefined_tables:
             print(f"Table '{table_name}' already exists.")
         else:
-            new_table = Table(table_name)
+            new_table = Table(table_name,table_name)
             self.database.insert(new_table)
             print(f"Table '{table_name}' created successfully.")
 
@@ -155,10 +155,27 @@ class LeadStudent:
 class MemberStudent(LeadStudent):
     def __init__(self, id, firstname, lastname, type, projects=[]):
         super().__init__(id, firstname, lastname, type, projects)
+        self.projects = projects
         self.student = Student(id, firstname, lastname, type, projects)
 
     def update_project_details(self, project, new_details):
         project.update_details(new_details)
+
+    def view_project(self, project):
+        print(f"Project ID: {project.project_id}")
+        print(f"Title: {project.title}")
+        print(f"Description: {project.description}")
+        print(f"Status: {project.status}")
+        print("Members:")
+        for member in project.members:
+            print(f"- {member.firstname} {member.lastname}")
+        print("")
+
+    def get_project_by_id(self, project_id):
+        for project in self.projects:
+            if project.project_id == project_id:
+                return project
+        return None
 
 
 class Faculty:

@@ -1,6 +1,5 @@
 # import database module
-
-import database
+from database import DB, Table
 import csv
 import os
 from test2 import *
@@ -10,10 +9,8 @@ __location__ = os.path.realpath(
 
 # define a funcion called initializing
 
-create_table = database.Table
-create_db = database.DB
 
-db = database.DB()
+db = DB()
 
 
 def initializing():
@@ -32,18 +29,18 @@ def initializing():
     with open('persons.csv', mode='r') as file:
         persons_data = list(csv.DictReader(file))
 
-    persons_table = database.Table('persons', [])
+    persons_table = Table('persons', [])
     for row in persons_data:
         persons_table.insert(row)
+
     db.insert(persons_table)
 
-
-    login_table = database.Table('login', [])
+    login_table = Table('login', [])
     for login in login_data:
-        person_id = login['ID']
+        person_id = login['person_id']
         username = login['username']
         password = login['password']
-        role = 'student' if login['role'] == 'student' else 'faculty'
+        role = login['role']
         login_table.insert({'person_id': person_id, 'username': username, 'password': password, 'role': role})
     db.insert(login_table)
 
@@ -61,10 +58,9 @@ def login(db):
     password = input("Enter password: ")
     login_table = db.search('login')
     matching_users = login_table.filter(lambda user: user['username'] == username and user['password'] == password)
-
     if matching_users:
         user = matching_users.table[0]
-        return [user['person_id'], user['role']]
+        return user['person_id'], user['role']
     else:
         return None
         # print(matching_users)
@@ -89,22 +85,28 @@ def exit(db):
 # make calls to the initializing and login functions defined above
 
 initializing()
-val = login()
+val = login(db)
 
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 
 if val[1] == 'admin':
     admin_menu(db)
 # see and do admin related activities
-# elif val[1] = 'student':
+elif val[1] == 'student':
+    student_menu()
+
 # see and do student related activities
-# elif val[1] = 'member':
+elif val[1] == 'member':
+    member_student_menu()
 # see and do member related activities
-# elif val[1] = 'lead':
+elif val[1] == 'lead':
+    lead_student_menu()
 # see and do lead related activities
-# elif val[1] = 'faculty':
+elif val[1] == 'faculty':
+    faculty_menu()
 # see and do faculty related activities
-# elif val[1] = 'advisor':
+elif val[1] == 'advisor':
+    advising_faculty_menu()
 # see and do advisor related activities
 
 

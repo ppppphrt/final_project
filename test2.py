@@ -1,4 +1,4 @@
-from test import LeadStudent, Student, Faculty, DB, Admin
+from test import LeadStudent, Student, Faculty, DB, Admin, MemberStudent, AdvisingFaculty
 
 
 def create_lead_student():
@@ -73,6 +73,83 @@ def lead_student_menu():
         else:
             print("Invalid choice. Please enter a valid number.")
 
+
+def member_student_menu():
+    member_student_id = input("Enter your ID: ")
+    member_student_firstname = input("Enter your first name: ")
+    member_student_lastname = input("Enter your last name: ")
+    member_student_type = input("Enter your type: ")
+
+    member_student = MemberStudent(member_student_id, member_student_firstname, member_student_lastname, member_student_type)
+
+    while True:
+        print("\nMember Student Menu:")
+        print("1. Update Project Details")
+        print("2. View Projects")
+        print("3. Exit to Main Menu")
+
+        member_student_choice = input("Enter your choice (1/3): ")
+
+        if member_student_choice == '1':
+            project_id = input("Enter the project ID: ")
+            new_details = input("Enter the new project details: ")
+            project = member_student.get_project_by_id(project_id)
+            if project:
+                member_student.update_project_details(project, new_details)
+                print("Project details updated successfully.")
+            else:
+                print(f"Project with ID {project_id} not found.")
+        elif member_student_choice == '2':
+            project_id = input("Enter the project ID to view: ")
+            project = member_student.get_project_by_id(project_id)
+            if project:
+                member_student.view_project(project)
+            else:
+                print(f"Project with ID {project_id} not found.")
+        elif member_student_choice == '3':
+            print("Returning to main menu.")
+            break
+        else:
+            print("Invalid choice. Please enter a valid number.")
+
+
+
+def advising_faculty_menu():
+    advising_faculty_id = input("Enter your ID: ")
+    advising_faculty_firstname = input("Enter your first name: ")
+    advising_faculty_lastname = input("Enter your last name: ")
+    advising_faculty_type = input("Enter your type: ")
+
+    advising_faculty = AdvisingFaculty(advising_faculty_id, advising_faculty_firstname, advising_faculty_lastname, advising_faculty_type)
+
+    while True:
+        print("\nAdvising Faculty Menu:")
+        print("1. Approve Project")
+        print("2. Deny Project")
+        print("3. Advise Project")
+        print("4. Exit to Main Menu")
+
+        faculty_choice = input("Enter your choice (1/4): ")
+
+        if faculty_choice == '1':
+            project_id = input("Enter the project ID to approve: ")
+            project = advising_faculty.faculty.get_project_by_id(project_id)
+            advising_faculty.approve_project(project)
+            print(f"Project '{project.title}' approved successfully.")
+        elif faculty_choice == '2':
+            project_id = input("Enter the project ID to deny: ")
+            project = advising_faculty.faculty.get_project_by_id(project_id)
+            advising_faculty.deny_project(project)
+            print(f"Project '{project.title}' denied.")
+        elif faculty_choice == '3':
+            project_id = input("Enter the project ID to advise: ")
+            project = advising_faculty.faculty.get_project_by_id(project_id)
+            advising_faculty.advise_project(project)
+        elif faculty_choice == '4':
+            print("Returning to main menu.")
+            break
+        else:
+            print("Invalid choice. Please enter a valid number.")
 
 def func():
     id = input("Enter student ID: ")
