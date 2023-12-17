@@ -21,7 +21,7 @@ from database import DB, Table
 
 
 class Admin:
-    def __init__(self, database):
+    def __init__(self, database: DB):
         self.database = database
 
     def manage_database(self):
@@ -147,13 +147,14 @@ class LeadStudent:
         project.remove_member(self.student)
         print(f"{self.student.firstname} {self.student.lastname} has been removed from the project '{project.title}'.")
 
-    def submit_project(self, project):
+    def submit_project(self, project: Project):
         project.submitted = True
         print(f"Project '{project.title}' has been submitted for review")
 
 
-class MemberStudent:
+class MemberStudent(LeadStudent):
     def __init__(self, id, firstname, lastname, type, projects=[]):
+        super().__init__(id, firstname, lastname, type, projects)
         self.student = Student(id, firstname, lastname, type, projects)
 
     def update_project_details(self, project, new_details):
@@ -165,7 +166,7 @@ class Faculty:
         self.user = User(id, firstname, lastname, type)
         self.projects_to_evaluate = projects_to_evaluate
 
-    def evaluate_project(self, project):
+    def evaluate_project(self, project):  # TODO: WHy have set result = True alway?
         evaluation_result = True
 
         if evaluation_result:
@@ -179,8 +180,9 @@ class Faculty:
         self.projects_to_evaluate.append(project)
 
 
-class AdvisingFaculty:
+class AdvisingFaculty(LeadStudent):
     def __init__(self, id, firstname, lastname, type, projects_to_evaluate=[]):
+        super().__init__(id, firstname, lastname, type)
         self.faculty = Faculty(id, firstname, lastname, type, projects_to_evaluate)
 
     def approve_project(self, project):
