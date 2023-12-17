@@ -9,7 +9,7 @@ def create_lead_student(admin):
     return LeadStudent(id, firstname, lastname, type)
 
 
-def create_student(admin):
+def create_student():
     id = input("Enter student ID: ")
     firstname = input("Enter student firstname: ")
     lastname = input("Enter student lastname: ")
@@ -18,7 +18,7 @@ def create_student(admin):
     return Student(id, firstname, lastname, type)
 
 
-def create_faculty_member(admin):
+def create_faculty_member():
     id = input("Enter faculty ID: ")
     firstname = input("Enter faculty firstname: ")
     lastname = input("Enter faculty lastname: ")
@@ -79,7 +79,6 @@ def admin_menu(admin):
 
 def lead_student_menu(admin):
     lead_student = create_lead_student(admin)
-
     project = lead_student.create_project('project_id', 'title', 'description')
     while True:
         print("\nLead Student Menu:")
@@ -106,9 +105,22 @@ def lead_student_menu(admin):
             print("Invalid choice. Please enter a valid number.")
 
 
+def func():
+    id = input("Enter student ID: ")
+    firstname = input("Enter student firstname: ")
+    lastname = input("Enter student lastname: ")
+    type = "lead_student"
+
+    return LeadStudent(id, firstname, lastname, type), Student(id, firstname, lastname, type), Faculty(id, firstname, lastname, type)
+
+
 
 def student_menu(admin):
-    student = create_student(admin)
+    # lead_student = create_lead_student(admin)
+    lead_student, student , faculty = func()
+    project = lead_student.create_project('project_id', 'title', 'description')
+
+    # student = create_student()
     join_project = student.join_project
     leave_project = student.leave_project
     while True:
@@ -120,9 +132,9 @@ def student_menu(admin):
         student_choice = input("Enter your choice (1/3): ")
 
         if student_choice == '1':
-            join_project(student)
+            join_project(project)
         elif student_choice == '2':
-            leave_project(student)
+            leave_project(project)
         elif student_choice == '3':
             print("Returning to main menu.")
             break
@@ -131,7 +143,10 @@ def student_menu(admin):
 
 
 def faculty_menu(admin):
-    faculty_member = create_faculty_member(admin)
+    lead_student, student , faculty_member = func()
+    project = lead_student.create_project('project_id', 'title', 'description')
+
+    # faculty_member = create_faculty_member()
     evaluate_project = faculty_member.evaluate_project
     advise_project = faculty_member.assign_project
 
@@ -144,9 +159,9 @@ def faculty_menu(admin):
         faculty_choice = input("Enter your choice (1/3): ")
 
         if faculty_choice == '1':
-            evaluate_project(faculty_member)
+            evaluate_project(project)
         elif faculty_choice == '2':
-            advise_project(faculty_member)
+            advise_project(project)
         elif faculty_choice == '3':
             print("Returning to main menu.")
             break
