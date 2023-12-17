@@ -1,6 +1,7 @@
 from test import LeadStudent, Student, Faculty, DB, Admin
 
-def create_lead_student(admin):
+
+def create_lead_student():
     id = input("Enter student ID: ")
     firstname = input("Enter student firstname: ")
     lastname = input("Enter student lastname: ")
@@ -27,40 +28,8 @@ def create_faculty_member():
     return Faculty(id, firstname, lastname, type)
 
 
-
-
-def main():
-    database_instance = DB()
-    admin = Admin(database_instance)
-
-    print("Welcome to the Project Management System!")
-
-    while True:
-        print("\nChoose a role:")
-        print("1. Admin")
-        print("2. Lead Student")
-        print("3. Regular Student")
-        print("4. Faculty")
-        print("5. Exit")
-
-        role_choice = input("Enter the number corresponding to your role: ")
-
-        if role_choice == '1':
-            admin_menu(admin)
-        elif role_choice == '2':
-            lead_student_menu(admin)
-        elif role_choice == '3':
-            student_menu(admin)
-        elif role_choice == '4':
-            faculty_menu(admin)
-        elif role_choice == '5':
-            print("Exiting the program. Goodbye!")
-            break
-        else:
-            print("Invalid choice. Please enter a valid number.")
-
-
-def admin_menu(admin):
+def admin_menu(database):
+    admin = Admin(database)
     while True:
         print("\nAdmin Menu:")
         print("1. Manage Database")
@@ -77,8 +46,8 @@ def admin_menu(admin):
             print("Invalid choice. Please enter a valid number.")
 
 
-def lead_student_menu(admin):
-    lead_student = create_lead_student(admin)
+def lead_student_menu():
+    lead_student = create_lead_student()
     project = lead_student.create_project('project_id', 'title', 'description')
     while True:
         print("\nLead Student Menu:")
@@ -93,11 +62,11 @@ def lead_student_menu(admin):
         if lead_student_choice == '1':
             lead_student.create_project('project_id', 'title', 'description')
         elif lead_student_choice == '2':
-            lead_student.invite_member(project)
+            lead_student.invite_member(project)  # TODO: Add Request to Member too
         elif lead_student_choice == '3':
             lead_student.remove_member(project)
         elif lead_student_choice == '4':
-            lead_student.submit_project(project)
+            lead_student.submit_project(project)  # TODO: Change Response Status in Request Pending Member in Table
         elif lead_student_choice == '5':
             print("Returning to main menu.")
             break
@@ -114,10 +83,9 @@ def func():
     return LeadStudent(id, firstname, lastname, type), Student(id, firstname, lastname, type), Faculty(id, firstname, lastname, type)
 
 
-
-def student_menu(admin):
+def student_menu():
     # lead_student = create_lead_student(admin)
-    lead_student, student , faculty = func()
+    lead_student, student, faculty = func()
     project = lead_student.create_project('project_id', 'title', 'description')
 
     # student = create_student()
@@ -142,7 +110,7 @@ def student_menu(admin):
             print("Invalid choice. Please enter a valid number.")
 
 
-def faculty_menu(admin):
+def faculty_menu():
     lead_student, student , faculty_member = func()
     project = lead_student.create_project('project_id', 'title', 'description')
 
@@ -164,6 +132,37 @@ def faculty_menu(admin):
             advise_project(project)
         elif faculty_choice == '3':
             print("Returning to main menu.")
+            break
+        else:
+            print("Invalid choice. Please enter a valid number.")
+
+
+def main():
+    database_instance = DB()
+    admin = Admin(database_instance)
+
+    print("Welcome to the Project Management System!")
+
+    while True:
+        print("\nChoose a role:")
+        print("1. Admin")
+        print("2. Lead Student")
+        print("3. Regular Student")
+        print("4. Faculty")
+        print("5. Exit")
+
+        role_choice = input("Enter the number corresponding to your role: ")
+
+        if role_choice == '1':
+            admin_menu(admin)
+        elif role_choice == '2':
+            lead_student_menu()
+        elif role_choice == '3':
+            student_menu()
+        elif role_choice == '4':
+            faculty_menu()
+        elif role_choice == '5':
+            print("Exiting the program. Goodbye!")
             break
         else:
             print("Invalid choice. Please enter a valid number.")

@@ -1,6 +1,7 @@
 # try wrapping the code below that reads a persons.csv file in a class and make it more general such that it can read in any csv file
 
 import csv, os
+import random
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -33,9 +34,9 @@ import copy
 
 
 class Table:
-    def __init__(self, table_name):
+    def __init__(self, table_name, table):
         self.table_name = table_name
-        self.table = []
+        self.table = table
 
     def __is_float(self, element):
         if element is None:
@@ -88,6 +89,8 @@ class Table:
     def insert(self, entry):
         # if isinstance(entry, dict):
         #     self.table.append(entry)
+        # Random key 6 if key not in csv then append else genarate new id
+
         self.table.append(entry)
 
     def __str__(self):

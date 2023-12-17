@@ -3,6 +3,7 @@
 import database
 import csv
 import os
+from test2 import *
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -11,6 +12,8 @@ __location__ = os.path.realpath(
 
 create_table = database.Table
 create_db = database.DB
+
+db = database.DB()
 
 
 def initializing():
@@ -28,10 +31,6 @@ def initializing():
 
     with open('persons.csv', mode='r') as file:
         persons_data = list(csv.DictReader(file))
-
-
-    db = database.DB()
-
 
     persons_table = database.Table('persons', [])
     for row in persons_data:
@@ -89,12 +88,13 @@ def exit(db):
 
 # make calls to the initializing and login functions defined above
 
-# db = initializing()
-# val = login(db)
+initializing()
+val = login()
 
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 
-# if val[1] = 'admin':
+if val[1] == 'admin':
+    admin_menu(db)
 # see and do admin related activities
 # elif val[1] = 'student':
 # see and do student related activities
@@ -107,48 +107,9 @@ def exit(db):
 # elif val[1] = 'advisor':
 # see and do advisor related activities
 
-def run():
 
-    db = initializing()
-
-
-    val = login(db)
-
-    if val:
-        if val[1] == 'admin':
-
-            admin_activities(db)
-        elif val[1] == 'student':
-
-            student_activities(db, val[0])
-        elif val[1] == 'faculty':
-
-            faculty_activities(db, val[0])
-        # elif val[1] = 'member':
-        #
-        # elif val[1] = 'lead':
-        #
-        #
-        # elif val[1] = 'advisor':
-        #
-
-
-    exit(db)
-
-
-def admin_activities(db):
-    pass
-
-
-def student_activities(db, user_id):
-    pass
-
-
-def faculty_activities(db, user_id):
-    pass
 
 
 # once everyhthing is done, make a call to the exit function
 # exit(db)
 
-run()
