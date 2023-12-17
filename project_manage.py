@@ -32,6 +32,20 @@ def initializing():
     with open('project.csv', mode='r') as file:
         project_data = list(csv.DictReader(file))
 
+    with open('Advisor_pending_request.csv', mode='r') as file:
+        advice_pending = list(csv.DictReader(file))
+
+    with open('Member_pending_request.csv', mode='r') as file:
+        member_pending = list(csv.DictReader(file))
+
+    advice_pending_table = Table('advice_pending', [])
+    for row in advice_pending:
+        advice_pending_table.insert(row)
+
+    member_pending_table = Table('member_pending', [])
+    for row in member_pending:
+        member_pending_table.insert(row)
+
     persons_table = Table('persons', [])
     for row in persons_data:
         persons_table.insert(row)
@@ -102,25 +116,22 @@ if val[1] == 'admin':
 
 # see and do admin related activities
 elif val[1] == 'student':
-    student_menu()
+    student_menu(db)
 
 # see and do student related activities
 elif val[1] == 'member':
-    member_student_menu()
+    member_student_menu(db)
 # see and do member related activities
 elif val[1] == 'lead':
-    lead_student_menu()
+    database = lead_student_menu(db, val[0])
 # see and do lead related activities
 elif val[1] == 'faculty':
-    faculty_menu()
+    faculty_menu(db)
 # see and do faculty related activities
 elif val[1] == 'advisor':
     advising_faculty_menu(db)
 # see and do advisor related activities
 
 
-
-
 # once everyhthing is done, make a call to the exit function
-# exit(db)
-
+# exit(database)

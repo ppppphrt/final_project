@@ -81,11 +81,15 @@ class Table:
         return temps
 
     def insert(self, entry):
-        # if isinstance(entry, dict):
-        #     self.table.append(entry)
+        if isinstance(entry, dict):
+            self.table.append(entry)
         # Random key 6 if key not in csv then append else genarate new id
 
-        self.table.append(entry)
+    def update(self, key, column, new_value):
+        for item in self.table:
+            if item[column] == column:
+                item[key] = new_value
+                break
 
     def __str__(self):
         return self.table_name + ':' + str(self.table)

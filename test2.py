@@ -46,9 +46,10 @@ def admin_menu(database):
             print("Invalid choice. Please enter a valid number.")
 
 
-def lead_student_menu():
+def lead_student_menu(database, lead_id):
     lead_student = create_lead_student()
-    project = lead_student.create_project('project_id', 'title', 'description')
+    project = database.search('project')
+
     while True:
         print("\nLead Student Menu:")
         print("1. Create Project")
@@ -60,27 +61,36 @@ def lead_student_menu():
         lead_student_choice = input("Enter your choice (1/5): ")
 
         if lead_student_choice == '1':
-            lead_student.create_project('project_id', 'title', 'description')
+            project_id = input("Enter project ID: ")
+            title = input("Enter project title: ")
+            project.insert(entry={'ID': project_id, 'Title': title, 'Lead': '', 'Member1': '',
+                                  'Member2': '', 'Advisor': '', 'Status': 'In Progress'})
         elif lead_student_choice == '2':
-            lead_student.invite_member(project)  # TODO: Add Request to Member too
+            member_name = input("Enter member's name: ")
+            project = lead_student.invite_member(project, member_name)
         elif lead_student_choice == '3':
-            lead_student.remove_member(project)
+            member_name = input("Enter member's name to remove: ")
+            project = lead_student.remove_member(project, member_name)
         elif lead_student_choice == '4':
-            lead_student.submit_project(project)  # TODO: Change Response Status in Request Pending Member in Table
+            project = lead_student.submit_project(project, lead_id, database.search('persons'))
         elif lead_student_choice == '5':
             print("Returning to main menu.")
             break
         else:
             print("Invalid choice. Please enter a valid number.")
 
+    database.insert(project)
+    return database
 
-def member_student_menu():
+
+def member_student_menu(database):
     member_student_id = input("Enter your ID: ")
     member_student_firstname = input("Enter your first name: ")
     member_student_lastname = input("Enter your last name: ")
     member_student_type = input("Enter your type: ")
 
-    member_student = MemberStudent(member_student_id, member_student_firstname, member_student_lastname, member_student_type, projects=)
+    member_student = MemberStudent(member_student_id, member_student_firstname, member_student_lastname, member_student_type,
+                                   database.search(''))
 
     while True:
         print("\nMember Student Menu:")
@@ -111,7 +121,6 @@ def member_student_menu():
             break
         else:
             print("Invalid choice. Please enter a valid number.")
-
 
 
 def advising_faculty_menu(database: DB):
@@ -162,7 +171,7 @@ def func():
     return LeadStudent(id, firstname, lastname, type), Student(id, firstname, lastname, type), Faculty(id, firstname, lastname, type)
 
 
-def student_menu():
+def student_menu(database):
     # lead_student = create_lead_student(admin)
     lead_student, student, faculty = func()
     project = lead_student.create_project('project_id', 'title', 'description')
@@ -175,6 +184,8 @@ def student_menu():
         print("1. Join Project")
         print("2. Leave Project")
         print("3. Exit to Main Menu")
+        # TODO: Add modify and see
+        # TODO: Add See message form the lead
 
         student_choice = input("Enter your choice (1/3): ")
 
@@ -189,8 +200,8 @@ def student_menu():
             print("Invalid choice. Please enter a valid number.")
 
 
-def faculty_menu():
-    lead_student, student , faculty_member = func()
+def faculty_menu(database):
+    lead_student, student, faculty_member = func()
     project = lead_student.create_project('project_id', 'title', 'description')
 
     # faculty_member = create_faculty_member()
