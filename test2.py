@@ -80,7 +80,7 @@ def member_student_menu():
     member_student_lastname = input("Enter your last name: ")
     member_student_type = input("Enter your type: ")
 
-    member_student = MemberStudent(member_student_id, member_student_firstname, member_student_lastname, member_student_type)
+    member_student = MemberStudent(member_student_id, member_student_firstname, member_student_lastname, member_student_type, projects=)
 
     while True:
         print("\nMember Student Menu:")
@@ -114,13 +114,15 @@ def member_student_menu():
 
 
 
-def advising_faculty_menu():
+def advising_faculty_menu(database: DB):
     advising_faculty_id = input("Enter your ID: ")
     advising_faculty_firstname = input("Enter your first name: ")
     advising_faculty_lastname = input("Enter your last name: ")
     advising_faculty_type = input("Enter your type: ")
 
-    advising_faculty = AdvisingFaculty(advising_faculty_id, advising_faculty_firstname, advising_faculty_lastname, advising_faculty_type)
+    project_table = database.search('project')
+
+    advising_faculty = AdvisingFaculty(advising_faculty_id, advising_faculty_firstname, advising_faculty_lastname, advising_faculty_type, project_table)
 
     while True:
         print("\nAdvising Faculty Menu:")

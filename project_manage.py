@@ -29,11 +29,19 @@ def initializing():
     with open('persons.csv', mode='r') as file:
         persons_data = list(csv.DictReader(file))
 
+    with open('project.csv', mode='r') as file:
+        project_data = list(csv.DictReader(file))
+
     persons_table = Table('persons', [])
     for row in persons_data:
         persons_table.insert(row)
 
+    project_table = Table('project', [])
+    for row in project_data:
+        project_table.insert(row)
+
     db.insert(persons_table)
+    db.insert(project_table)
 
     login_table = Table('login', [])
     for login in login_data:
@@ -91,6 +99,7 @@ val = login(db)
 
 if val[1] == 'admin':
     admin_menu(db)
+
 # see and do admin related activities
 elif val[1] == 'student':
     student_menu()
@@ -106,7 +115,7 @@ elif val[1] == 'faculty':
     faculty_menu()
 # see and do faculty related activities
 elif val[1] == 'advisor':
-    advising_faculty_menu()
+    advising_faculty_menu(db)
 # see and do advisor related activities
 
 
