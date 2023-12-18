@@ -104,8 +104,8 @@ def member_student_menu(database):
             new_details = input("Enter the new project details: ")
             project = member_student.get_project_by_id(project_id)
             if project:
-                member_student.update_project_details(project, new_details)
-                print("Project details updated successfully.")
+                member_student.update_project_details(project, new_details,member_student)
+
             else:
                 print(f"Project with ID {project_id} not found.")
         elif member_student_choice == '2':
