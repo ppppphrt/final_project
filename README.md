@@ -148,3 +148,4 @@
 
 - Leave Project is just show but it does not work.
 - Faculty can not see a request to be a supervisor.
+- Project evaluate always be True.

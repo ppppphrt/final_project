@@ -5,7 +5,6 @@ import os
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-
 # class User:
 #     def __init__(self, id, firstname, lastname, type):
 #         self.id = id
@@ -13,8 +12,8 @@ __location__ = os.path.realpath(
 #         self.lastname = lastname
 #         self.type = type
 
-    # def __str__(self):
-    #     return f'{self.id} : {self.firstname} {self.lastname} , {self.type}'
+# def __str__(self):
+#     return f'{self.id} : {self.firstname} {self.lastname} , {self.type}'
 
 
 from database import DB, Table
@@ -117,9 +116,8 @@ class Project:
         print(f"Project ID: {self.project_id}, Title: {self.title}, Description: {self.description}")
 
 
-
 class Student:
-    def __init__(self, type, projects,id):
+    def __init__(self, type, projects, id):
         self.id = id
         # self.firstname = firstname
         # self.lastname = lastname
@@ -140,13 +138,11 @@ class Student:
                     print(f'ProjectID : {members["ProjectID"]}')
                     accept_invite = input("Accept invite (A) or Decline invite (D): ")
                     if accept_invite == 'A':
-                        member_pending.update(members["ProjectID"],'Response','Accept')
+                        member_pending.update(members["ProjectID"], 'Response', 'Accept')
                         print("Project joined successfully.")
                     elif accept_invite == 'D':
-                        member_pending.update(members["ProjectID"],'Response','Declined')
+                        member_pending.update(members["ProjectID"], 'Response', 'Declined')
                         print("Project declined successfully.")
-
-
 
     def leave_project(self, project):
         self.projects.remove(project)
@@ -162,9 +158,10 @@ class Student:
         print(f"Project ID: {project.project_id}")
         print(f"Description: {project.description}")
 
+
 class LeadStudent(Student):
-    def __init__(self,type, projects=[]):
-        super().__init__( type, projects,id)
+    def __init__(self, type, projects=[]):
+        super().__init__(type, projects, id)
 
     def create_project(self, project_id, title, description):
         project = Project(project_id, title, description)
@@ -220,8 +217,8 @@ class LeadStudent(Student):
 
 
 class MemberStudent(Student):
-    def __init__(self,  type, projects=[]):
-        super().__init__(type, projects,id)
+    def __init__(self, type, projects=[]):
+        super().__init__(type, projects, id)
 
     def update_project_details(self, project, new_details, member_student):
         if member_student == project['to_be_member']:
@@ -251,10 +248,9 @@ class MemberStudent(Student):
         return None
 
 
-
 class Faculty(Student):
-    def __init__(self, type, project,projects_to_evaluate=[]):
-        super().__init__( type,project,id)
+    def __init__(self, type, project, projects_to_evaluate=[]):
+        super().__init__(type, project, id)
         # self.user = User(id, firstname, lastname, type)
         self.projects_to_evaluate = projects_to_evaluate
 
@@ -263,10 +259,10 @@ class Faculty(Student):
 
         if evaluation_result:
             project.approved = True
-            print(f"Project '{project.title}' has been approved by {self.user.firstname} {self.user.lastname}.")
+            print(f"Project '{project.title}' has been approved .")
         else:
             project.approved = False
-            print(f"Project '{project.title}' has been denied approval by {self.user.firstname} {self.user.lastname}.")
+            print(f"Project '{project.title}' has been denied approved.")
 
     def assign_project(self, project):
         self.projects_to_evaluate.append(project)
@@ -277,8 +273,9 @@ class Faculty(Student):
                 return project
         return None
 
+
 class AdvisingFaculty(LeadStudent):
-    def __init__(self,  projects_to_evaluate=[]):
+    def __init__(self, projects_to_evaluate=[]):
         super().__init__(type)
         self.faculty = Faculty(type, projects_to_evaluate)
 
@@ -296,7 +293,6 @@ class AdvisingFaculty(LeadStudent):
 
             print(f"Project with ID '{project_id}' not found for Advising Faculty '{self.id}'.")
 
-
     def advise_project(self, project):
         feedback = input("Project Advice: ")
         print(f"Advice for project: {feedback}")
@@ -306,4 +302,3 @@ class AdvisingFaculty(LeadStudent):
             if project.id == project_id:
                 return project
         raise ValueError(f"Project with ID '{project_id}' not found for Advising Faculty '{self.id}'")
-

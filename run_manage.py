@@ -72,7 +72,7 @@ def lead_student_menu(database, lead_id):
             member_name = input("Enter member's name to remove: ")
             project = lead_student.remove_member(project, member_name)
         elif lead_student_choice == '4':
-            project = lead_student.submit_project(project, lead_id, database.search('persons'))
+            project = lead_student.submit_project(database.search('project'), lead_id, database.search('persons'))
         elif lead_student_choice == '5':
             print("Returning to main menu.")
             break
@@ -89,7 +89,7 @@ def member_student_menu(database):
     # member_student_lastname = input("Enter your last name: ")
     member_student_type = input("Enter your type: ")
     # print(database.search('member_pending'))
-    member_student = MemberStudent(member_student_type,database.search('member_pending'))
+    member_student = MemberStudent(member_student_type, database.search('member_pending'))
 
     while True:
         print("\nMember Student Menu")
@@ -104,7 +104,7 @@ def member_student_menu(database):
             new_details = input("Enter the new project details: ")
             project = member_student.get_project_by_id(project_id)
             if project:
-                member_student.update_project_details(project, new_details,member_student)
+                member_student.update_project_details(project, new_details, member_student)
 
             else:
                 print(f"Project with ID {project_id} not found.")
@@ -112,7 +112,7 @@ def member_student_menu(database):
             project_id = input("Enter the project ID to view: ")
             project = member_student.get_project_by_id(project_id)
             if project:
-                member_student.view_project(project,member_student)
+                member_student.view_project(project, member_student)
             else:
                 print(f"Project with ID {project_id} not found.")
         elif member_student_choice == '3':
@@ -144,12 +144,12 @@ def advising_faculty_menu(database: DB):
         if faculty_choice == '1':
             project_id = input("Enter the project ID to approve: ")
             project = advising_faculty.faculty.get_project_by_id(project_id)
-            advising_faculty.approve_project(project,project_id)
+            advising_faculty.approve_project(project, project_id)
             print(f"Project approved successfully.")
         elif faculty_choice == '2':
             project_id = input("Enter the project ID to deny: ")
             project = advising_faculty.faculty.get_project_by_id(project_id)
-            advising_faculty.deny_project(project,project_id)
+            advising_faculty.deny_project(project, project_id)
             print(f"Project denied.")
         elif faculty_choice == '3':
             project_id = input("Enter the project ID to advise: ")
@@ -161,18 +161,19 @@ def advising_faculty_menu(database: DB):
         else:
             print("Invalid choice. Please enter a valid number.")
 
-def func(database,id):
+
+def func(database, id):
     # id = input("Enter student ID: ")
     # firstname = input("Enter student firstname: ")
     # lastname = input("Enter student lastname: ")
     type = "lead_student"
     project = database.search('project')
-    return LeadStudent(type,project), Student(type,project,id), Faculty(type,project)
+    return LeadStudent(type, project), Student(type, project, id), Faculty(type, project)
 
 
-def student_menu(database,id):
+def student_menu(database, id):
     # lead_student = create_lead_student(admin)
-    lead_student, student, faculty = func(database,id)
+    lead_student, student, faculty = func(database, id)
 
     project = lead_student.create_project('project_id', 'title', 'description')
     project_ii = database.search('project')
@@ -192,11 +193,10 @@ def student_menu(database,id):
         print("5. Create Project")
         print("6. Exit to Main Menu")
 
-
         student_choice = input("Enter your choice (1/6): ")
 
         if student_choice == '1':
-            join_project(project,member_pending, person_table)
+            join_project(project, member_pending, person_table)
 
         elif student_choice == '2':
             # leave_project(project)
@@ -204,7 +204,7 @@ def student_menu(database,id):
         elif student_choice == '3':
             new_title = input("Type new title here: ")
             new_description = input("Your new description: ")
-            update_project(project,new_title,new_description)
+            update_project(project, new_title, new_description)
             print("Project Updated")
         elif student_choice == '4':
             see_project(project)
@@ -213,7 +213,7 @@ def student_menu(database,id):
             project_id = input("Enter project ID: ")
             title = input("Enter project title: ")
             project_ii.insert(entry={'ID': project_id, 'Title': title, 'Lead': id, 'Member1': '',
-                                  'Member2': '', 'Advisor': '', 'Status': 'In Progress'})
+                                     'Member2': '', 'Advisor': '', 'Status': 'In Progress'})
             print("Project has been created successfully!")
         elif student_choice == '6':
             print("Returning to main menu.")
@@ -223,7 +223,7 @@ def student_menu(database,id):
 
 
 def faculty_menu(database):
-    lead_student, student, faculty_member = func(database,id)
+    lead_student, student, faculty_member = func(database, id)
     project = lead_student.create_project('project_id', 'title', 'description')
 
     # faculty_member = create_faculty_member()
@@ -247,7 +247,6 @@ def faculty_menu(database):
             break
         else:
             print("Invalid choice. Please enter a valid number.")
-
 
 # def main():
 #     database_instance = DB()
@@ -282,4 +281,3 @@ def faculty_menu(database):
 #
 # if __name__ == "__main__":
 #     main()
-

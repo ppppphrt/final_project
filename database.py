@@ -1,7 +1,7 @@
-# try wrapping the code below that reads a persons.csv file in a class and make it more general such that it can read in any csv file
+# try wrapping the code below that reads a persons.csv file in a class and make it more general such that it can read
+# in any csv file
 
-import csv, os
-import random
+import os
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -94,9 +94,8 @@ class Table:
     def __str__(self):
         return self.table_name + ':' + str(self.table)
 
+# modify the code in the Table class so that it supports the insert operation where an entry can be added to a list
+# of dictionary
 
-
-
-# modify the code in the Table class so that it supports the insert operation where an entry can be added to a list of dictionary
-
-# modify the code in the Table class so that it supports the update operation where an entry's value associated with a key can be updated
+# modify the code in the Table class so that it supports the update operation where an entry's value associated with
+# a key can be updated

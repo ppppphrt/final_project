@@ -1,7 +1,9 @@
 # import database module
-from database import DB, Table
 import csv
 import os
+from database import DB, Table
+# import csv
+# import os
 from run_manage import *
 
 __location__ = os.path.realpath(
@@ -92,11 +94,6 @@ def login(db):
 
 # define a function called exit
 def exit(db):
-    # here are things to do in this function:
-    # write out all the tables that have been modified to the corresponding csv files
-    # By now, you know how to read in a csv file and transform it into a list of dictionaries. For this project, you also need to know how to do the reverse, i.e., writing out to a csv file given a list of dictionaries. See the link below for a tutorial on how to do this:
-
-    # https://www.pythonforbeginners.com/basics/list-of-dictionaries-to-csv-in-python
 
     for table in db.database:
         table_name = table.table_name
@@ -111,14 +108,15 @@ def exit(db):
 initializing()
 val = login(db)
 
-# based on the return value for login, activate the code that performs activities according to the role defined for that person_id
+# based on the return value for login, activate the code that performs activities according to the role defined for
+# that person_id
 
 if val[1] == 'admin':
     admin_menu(db)
 
 # see and do admin related activities
 elif val[1] == 'student':
-    student_menu(db,val[0])
+    student_menu(db, val[0])
 
 # see and do student related activities
 elif val[1] == 'member':
