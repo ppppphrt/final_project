@@ -6,15 +6,15 @@ __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 
-class User:
-    def __init__(self, id, firstname, lastname, type):
-        self.id = id
-        self.firstname = firstname
-        self.lastname = lastname
-        self.type = type
+# class User:
+#     def __init__(self, id, firstname, lastname, type):
+#         self.id = id
+#         self.firstname = firstname
+#         self.lastname = lastname
+#         self.type = type
 
-    def __str__(self):
-        return f'{self.id} : {self.firstname} {self.lastname} , {self.type}'
+    # def __str__(self):
+    #     return f'{self.id} : {self.firstname} {self.lastname} , {self.type}'
 
 
 from database import DB, Table
@@ -119,15 +119,15 @@ class Project:
 
 
 class Student:
-    def __init__(self, id, firstname, lastname, type, projects=[]):
-        self.id = id
-        self.firstname = firstname
-        self.lastname = lastname
+    def __init__(self, type, projects):
+        # self.id = id
+        # self.firstname = firstname
+        # self.lastname = lastname
         self.type = type
         self.projects = projects
 
     def join_project(self, project):
-        self.projects.append(project)
+        self.projects.insert(project)
         project.add_member(self)
 
     def leave_project(self, project):
@@ -148,12 +148,12 @@ class Student:
 
 
 class LeadStudent(Student):
-    def __init__(self, id, firstname, lastname, type, projects=[]):
-        super().__init__(id, firstname, lastname, type, projects)
+    def __init__(self,type, projects=[]):
+        super().__init__( type, projects)
 
     def create_project(self, project_id, title, description):
         project = Project(project_id, title, description)
-        self.projects.append(project)
+        self.projects.insert(project)
         return project
 
     def invite_member(self, projects, member):
@@ -205,41 +205,42 @@ class LeadStudent(Student):
 
 
 class MemberStudent(Student):
-    def __init__(self, id, firstname, lastname, type, projects=[]):
-        super().__init__(id, firstname, lastname, type, projects)
+    def __init__(self,  type, projects=[]):
+        super().__init__(type, projects)
 
     def update_project_details(self, project, new_details, member_student):
-        if member_student in project.members:
+        if member_student == project['to_be_member']:
             project.update_details(new_details)
             print("Project details updated successfully.")
         else:
-            print(f"You don't have an access to project {project.project_id}.")
+            print(f"You don't have an access to project {project['ProjectID']}.")
 
     def view_project(self, project, member_student):
-        if member_student in project.members:
-            print(f"Project ID: {project.project_id}")
-            print(f"Title: {project.title}")
-            print(f"Description: {project.description}")
-            print(f"Status: {project.status}")
+        if member_student == project['to_be_member']:
+            print(f"Project ID: {project['ProjectID']}")
+            print(f"Respond: {project['Response']}")
+            # print(f"Status: {project['Status']}")
             print("Members:")
-            for member in project.members:
-                print(f"- {member.firstname} {member.lastname}")
+
+            print(f"- {project['Member1']} {project['Member2']}")
             print("")
         else:
-            print(f"You don't have access to project {project.project_id}.")
+            print(f"You don't have access to project {project['ProjectID']}.")
 
     def get_project_by_id(self, project_id):
-        for project in self.projects:
-            if project.project_id == project_id:
+        # print(self.projects)
+        for project in self.projects.table:
+            # print(project)
+            if project['ProjectID'] == project_id:
                 return project
         return None
 
 
 
 class Faculty(Student):
-    def __init__(self, id, firstname, lastname, type, projects_to_evaluate=[]):
-        super().__init__(id, firstname, lastname, type)
-        self.user = User(id, firstname, lastname, type)
+    def __init__(self, type, project,projects_to_evaluate=[] ):
+        super().__init__( type,project)
+        # self.user = User(id, firstname, lastname, type)
         self.projects_to_evaluate = projects_to_evaluate
 
     def evaluate_project(self, project):
@@ -262,9 +263,9 @@ class Faculty(Student):
         return None
 
 class AdvisingFaculty(LeadStudent):
-    def __init__(self, id, firstname, lastname, type, projects_to_evaluate=[]):
-        super().__init__(id, firstname, lastname, type)
-        self.faculty = Faculty(id, firstname, lastname, type, projects_to_evaluate)
+    def __init__(self,  projects_to_evaluate=[]):
+        super().__init__(type)
+        self.faculty = Faculty(type, projects_to_evaluate)
 
     def approve_project(self, project, project_id):
         if project:

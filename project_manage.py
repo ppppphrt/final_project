@@ -56,6 +56,8 @@ def initializing():
 
     db.insert(persons_table)
     db.insert(project_table)
+    db.insert(member_pending_table)
+    db.insert(advice_pending_table)
 
     login_table = Table('login', [])
     for login in login_data:
