@@ -136,4 +136,4 @@ elif val[1] == 'advisor':
 
 
 # once everyhthing is done, make a call to the exit function
-# exit(database)
+exit(db)

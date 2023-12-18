@@ -212,7 +212,7 @@ def student_menu(database,id):
         elif student_choice == '5':
             project_id = input("Enter project ID: ")
             title = input("Enter project title: ")
-            project_ii.insert(entry={'ID': project_id, 'Title': title, 'Lead': '', 'Member1': '',
+            project_ii.insert(entry={'ID': project_id, 'Title': title, 'Lead': id, 'Member1': '',
                                   'Member2': '', 'Advisor': '', 'Status': 'In Progress'})
             print("Project has been created successfully!")
         elif student_choice == '6':
