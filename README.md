@@ -135,10 +135,15 @@
 
 # How to run my code 
 
-- Run in file project_manage.py.
+- Run in file project_manage.py (by pressing run button).
 - choose people in each role in login.csv file (for example you choose people in 'student' role program will go to student directly).
 - continuous step 2 to every role.
 
 # Table Detailing
 
 ![Screenshot 2566-12-18 at 16.35.58.png](..%2F..%2F..%2Fvar%2Ffolders%2F1q%2F9xk3y1795d7bn9bwy9g7vc700000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_rBEWsj%2FScreenshot%202566-12-18%20at%2016.35.58.png)
+
+# Bugs and Missing Features
+
+- Leave Project is just show but it does not work.
+- Faculty can not see a request to be a supervisor.
