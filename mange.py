@@ -208,18 +208,25 @@ class MemberStudent(Student):
     def __init__(self, id, firstname, lastname, type, projects=[]):
         super().__init__(id, firstname, lastname, type, projects)
 
-    def update_project_details(self, project, new_details):
-        project.update_details(new_details)
+    def update_project_details(self, project, new_details, member_student):
+        if member_student in project.members:
+            project.update_details(new_details)
+            print("Project details updated successfully.")
+        else:
+            print(f"You don't have an access to project {project.project_id}.")
 
-    def view_project(self, project):
-        print(f"Project ID: {project.project_id}")
-        print(f"Title: {project.title}")
-        print(f"Description: {project.description}")
-        print(f"Status: {project.status}")
-        print("Members:")
-        for member in project.members:
-            print(f"- {member.firstname} {member.lastname}")
-        print("")
+    def view_project(self, project, member_student):
+        if member_student in project.members:
+            print(f"Project ID: {project.project_id}")
+            print(f"Title: {project.title}")
+            print(f"Description: {project.description}")
+            print(f"Status: {project.status}")
+            print("Members:")
+            for member in project.members:
+                print(f"- {member.firstname} {member.lastname}")
+            print("")
+        else:
+            print(f"You don't have access to project {project.project_id}.")
 
     def get_project_by_id(self, project_id):
         for project in self.projects:
