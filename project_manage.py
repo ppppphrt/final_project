@@ -118,7 +118,7 @@ if val[1] == 'admin':
 
 # see and do admin related activities
 elif val[1] == 'student':
-    student_menu(db)
+    student_menu(db,val[0])
 
 # see and do student related activities
 elif val[1] == 'member':

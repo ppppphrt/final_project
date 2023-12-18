@@ -161,18 +161,18 @@ def advising_faculty_menu(database: DB):
         else:
             print("Invalid choice. Please enter a valid number.")
 
-def func(database):
+def func(database,id):
     # id = input("Enter student ID: ")
     # firstname = input("Enter student firstname: ")
     # lastname = input("Enter student lastname: ")
     type = "lead_student"
     project = database.search('project')
-    return LeadStudent(type,project), Student(type,project), Faculty(type,project)
+    return LeadStudent(type,project), Student(type,project,id), Faculty(type,project)
 
 
-def student_menu(database):
+def student_menu(database,id):
     # lead_student = create_lead_student(admin)
-    lead_student, student, faculty = func(database)
+    lead_student, student, faculty = func(database,id)
 
     project = lead_student.create_project('project_id', 'title', 'description')
     project_ii = database.search('project')
@@ -181,6 +181,8 @@ def student_menu(database):
     leave_project = student.leave_project
     update_project = student.update_project
     see_project = student.see_project
+    member_pending = database.search('member_pending')
+    person_table = database.search('persons')
     while True:
         print("\nRegular Student Menu")
         print("1. Join Project")
@@ -194,10 +196,10 @@ def student_menu(database):
         student_choice = input("Enter your choice (1/6): ")
 
         if student_choice == '1':
-            join_project(project)
-            print("Project joined successfully.")
+            join_project(project,member_pending, person_table)
+
         elif student_choice == '2':
-            leave_project(project)
+            # leave_project(project)
             print("Project left successfully.")
         elif student_choice == '3':
             new_title = input("Type new title here: ")
@@ -221,7 +223,7 @@ def student_menu(database):
 
 
 def faculty_menu(database):
-    lead_student, student, faculty_member = func(database)
+    lead_student, student, faculty_member = func(database,id)
     project = lead_student.create_project('project_id', 'title', 'description')
 
     # faculty_member = create_faculty_member()

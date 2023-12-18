@@ -53,6 +53,7 @@
 3. **Student:**
    - A base class for different types of students (LeadStudent, MemberStudent, Faculty, AdvisingFaculty).
    - Contains common attributes like user type and projects.
+   - Has method Join , leave , update and see project.
 
 4. **LeadStudent:**
    - Inherits from Student.
@@ -134,9 +135,10 @@
 
 # How to run my code 
 
-- Run in file project_manage.py 
-- choose people in each role in login.csv file (for example you choose people in 'student' role program will go to student directly)
-- continuous step 2 to every role
+- Run in file project_manage.py.
+- choose people in each role in login.csv file (for example you choose people in 'student' role program will go to student directly).
+- continuous step 2 to every role.
 
 # Table Detailing
+
 

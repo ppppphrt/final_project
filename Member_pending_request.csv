@@ -1,6 +1,6 @@
 ProjectID,to_be_member,Response,Response_date
 1001,Alice Johnson,Accepted,2023-01-10
 1002,Bob Smith,Declined,2023-02-18
-1003,Charlie Brown,Under Review,2023-03-25
+1003,Charlie Brown,Pending,2023-03-25
 1004,Diana Williams,Accepted,2023-04-12
 1005,Eric Davis,Declined,2023-05-22

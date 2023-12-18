@@ -119,16 +119,34 @@ class Project:
 
 
 class Student:
-    def __init__(self, type, projects):
-        # self.id = id
+    def __init__(self, type, projects,id):
+        self.id = id
         # self.firstname = firstname
         # self.lastname = lastname
         self.type = type
         self.projects = projects
 
-    def join_project(self, project):
+    def join_project(self, project, member_pending, person_table):
         self.projects.insert(project)
         project.add_member(self)
+        name = None
+        for i in person_table.table:
+            if self.id == i['ID']:
+                name = i['first'] + ' ' + i['last']
+        for members in member_pending.table:
+            if members['to_be_member'] == name:
+                if members['Response'] == 'Pending':
+                    print('This is your request')
+                    print(f'ProjectID : {members["ProjectID"]}')
+                    accept_invite = input("Accept invite (A) or Decline invite (D): ")
+                    if accept_invite == 'A':
+                        member_pending.update(members["ProjectID"],'Response','Accept')
+                        print("Project joined successfully.")
+                    elif accept_invite == 'D':
+                        member_pending.update(members["ProjectID"],'Response','Declined')
+                        print("Project declined successfully.")
+
+
 
     def leave_project(self, project):
         self.projects.remove(project)
@@ -143,13 +161,10 @@ class Student:
         print(f"Project Title: {project.title}")
         print(f"Project ID: {project.project_id}")
         print(f"Description: {project.description}")
-        print(f"Members: {[member.fullname() for member in project.members]}")
-        print(f"Submitted: {project.submitted}")
-
 
 class LeadStudent(Student):
     def __init__(self,type, projects=[]):
-        super().__init__( type, projects)
+        super().__init__( type, projects,id)
 
     def create_project(self, project_id, title, description):
         project = Project(project_id, title, description)
@@ -206,7 +221,7 @@ class LeadStudent(Student):
 
 class MemberStudent(Student):
     def __init__(self,  type, projects=[]):
-        super().__init__(type, projects)
+        super().__init__(type, projects,id)
 
     def update_project_details(self, project, new_details, member_student):
         if member_student == project['to_be_member']:
@@ -239,7 +254,7 @@ class MemberStudent(Student):
 
 class Faculty(Student):
     def __init__(self, type, project,projects_to_evaluate=[]):
-        super().__init__( type,project)
+        super().__init__( type,project,id)
         # self.user = User(id, firstname, lastname, type)
         self.projects_to_evaluate = projects_to_evaluate
 
