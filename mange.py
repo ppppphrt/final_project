@@ -238,7 +238,7 @@ class MemberStudent(Student):
 
 
 class Faculty(Student):
-    def __init__(self, type, project,projects_to_evaluate=[] ):
+    def __init__(self, type, project,projects_to_evaluate=[]):
         super().__init__( type,project)
         # self.user = User(id, firstname, lastname, type)
         self.projects_to_evaluate = projects_to_evaluate
