@@ -44,7 +44,7 @@ class Admin:
         if table_name in predefined_tables:
             print(f"Table '{table_name}' already exists.")
         else:
-            new_table = Table(table_name, [])
+            new_table = Table(table_name, [{}])
             self.database.insert(new_table)
             print(f"Table '{table_name}' created successfully.")
 

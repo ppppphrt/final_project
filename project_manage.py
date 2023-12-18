@@ -98,7 +98,9 @@ def exit(db):
     for table in db.database:
         table_name = table.table_name
         with open(os.path.join(__location__, f'{table_name}.csv'), 'w', newline='') as file:
+            # print(table.table[0].keys())
             writer = csv.DictWriter(file, fieldnames=table.table[0].keys())
+
             writer.writeheader()
             writer.writerows(table.table)
 
