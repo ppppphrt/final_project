@@ -141,4 +141,4 @@
 
 # Table Detailing
 
-
+![Screenshot 2566-12-18 at 16.35.58.png](..%2F..%2F..%2Fvar%2Ffolders%2F1q%2F9xk3y1795d7bn9bwy9g7vc700000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_rBEWsj%2FScreenshot%202566-12-18%20at%2016.35.58.png)
